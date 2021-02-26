@@ -5,19 +5,19 @@ CREATE DATABASE sms;
 USE sms;
 
 CREATE TABLE student(sid VARCHAR(4) NOT NULL,
-					sname VARCHAR(25) NOT NULL,
+					name VARCHAR(25) NOT NULL,
 					dob DATE NOT NULL,
 					age INT(3) NOT NULL,
 					nic VARCHAR (12) NOT NULL,
 					tel1 VARCHAR(15) NOT NULL,
 					tel2 VARCHAR(15),
-					address VARCHAR(30) NOT NULL
+					address VARCHAR(30) NOT NULL,
 					CONSTRAINT PRIMARY KEY(sid));
 					
 						
-CREATE TABLE course(cid VARCHAR(4) NOT NULL PRIMARY KEY,
-					cname VARCHAR(20) NOT NULL,
-					cfee DECIMAL(10,2) NOT NULL
+CREATE TABLE course(cid VARCHAR(4) NOT NULL,
+					cname VARCHAR(250) NOT NULL,
+					cfee DECIMAL(10,2) NOT NULL,
 					CONSTRAINT PRIMARY KEY(cid));
 					
 							
@@ -29,7 +29,7 @@ CREATE TABLE batch (bid VARCHAR(4) NOT NULL,
 					FOREIGN KEY (cid) REFERENCES course(cid) ON DELETE CASCADE ON UPDATE CASCADE);
 
 CREATE TABLE subject(sid VARCHAR(4) NOT NULL,
-					 sname VARCHAR(20) NOT NULL
+					 sname VARCHAR(250) NOT NULL,
 					 CONSTRAINT PRIMARY KEY(sid));
 					
 CREATE TABLE reg_detail(rid VARCHAR(8) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE reg_detail(rid VARCHAR(8) NOT NULL,
 						FOREIGN KEY (sid) REFERENCES student(sid) ON DELETE CASCADE ON UPDATE CASCADE);
 						
 					
-CREATE TABLE cs(csid VARCHAR(4) PRIMARY KEY,
+CREATE TABLE cs(csid VARCHAR(4),
 				semester VARCHAR(20) NOT NULL,
 				cid VARCHAR(4) NOT NULL ,
 				sid VARCHAR(4) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE cs(csid VARCHAR(4) PRIMARY KEY,
 				FOREIGN KEY (cid) REFERENCES course(cid) ON DELETE CASCADE ON UPDATE CASCADE,
 				FOREIGN KEY (sid) REFERENCES subject(sid) ON DELETE CASCADE ON UPDATE CASCADE);
 				
-CREATE TABLE exam_detail(eid VARCHAR(4) PRIMARY KEY,
+CREATE TABLE exam_detail(eid VARCHAR(4),
 						edate DATE NOT NULL,
 						marks INT(3) NOT NULL,
 						rid VARCHAR(4),
@@ -59,7 +59,7 @@ CREATE TABLE exam_detail(eid VARCHAR(4) PRIMARY KEY,
 						FOREIGN KEY (rid) REFERENCES reg_detail(rid) ON DELETE CASCADE ON UPDATE CASCADE,
 						FOREIGN KEY (csid) REFERENCES cs(csid) ON DELETE CASCADE ON UPDATE CASCADE);
 									
-CREATE TABLE attendance(aid VARCHAR(4) PRIMARY KEY,
+CREATE TABLE attendance(aid VARCHAR(4),
 						rid VARCHAR(4) NOT NULL,
 						csid VARCHAR(4) NOT NULL,
 						date DATE NOT NULL,
@@ -70,16 +70,18 @@ CREATE TABLE attendance(aid VARCHAR(4) PRIMARY KEY,
 				
 CREATE TABLE users(username varchar(20) NOT NULL,
 				   password varchar(50) NOT NULL,
-				   previlages varchar(20) not null
+				   previlages varchar(20) not null,
 				   CONSTRAINT PRIMARY KEY(username));
 				   
 CREATE TABLE lectureshedule(lid VARCHAR(4) NOT NULL,
 					  lname VARCHAR(30) NOT NULL,
-					  lecture_name VARCHAR(30)NOT NULL
-					  date DATETIME NOT NULL
+					  lecture_name VARCHAR(30)NOT NULL,
+					  date DATETIME NOT NULL,
 					  CONSTRAINT PRIMARY KEY(lid));
 					  
 CREATE TABLE examshedule(esid VARCHAR(4) NOT NULL,
 					 	 esname VARCHAR(30) NOT NULL,
-					 	 date  DATETIME NOT NULL
-						 CONSTRAINT PRIMARY KEY(esid));					   			
+					 	 date  DATETIME NOT NULL,
+						 CONSTRAINT PRIMARY KEY(esid));
+
+insert into users values('admin','d033e22ae348aeb5660fc2140aec35850c4da997','Admin');			
